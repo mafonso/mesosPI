@@ -1,0 +1,8 @@
+---
+enable_firewall: false
+
+# SNMPD configurations
+config_snmpd: true
+enable_snmpd: true
+snmpd_ro_community: 'public'
+snmpd_authorized_network: '172.16.107.0/24'

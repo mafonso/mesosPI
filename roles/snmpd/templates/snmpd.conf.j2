@@ -1,0 +1,13 @@
+# {{ ansible_managed }}
+
+rocommunity {{ snmpd_ro_community }} {{ snmpd_authorized_network }}
+
+
+com2sec readonly {{snmpd_authorized_network}} {{ snmpd_ro_community }}
+group MyROGroup v1 readonly
+group MyROGroup v2c readonly
+group MyROGroup usm readonly
+view all included .1 80
+access MyROGroup "" any noauth exact all none none
+syslocation "London,UK"
+syscontact sys@hangas.net
