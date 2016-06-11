@@ -1,0 +1,16 @@
+{
+  "service": {
+    "name": "zookeeper",
+    "ID": "{{ groups.nodes.index(inventory_hostname) | int + 1 }}",
+    "port": 2181,
+    "checks": [
+      {
+        "id": "Port listening",
+        "name": "Zookeeper on port 2181",
+        "tcp": "localhost:2181",
+        "interval": "10s",
+        "timeout": "1s"
+      }
+    ]
+  }
+}

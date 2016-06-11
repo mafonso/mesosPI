@@ -1,0 +1,23 @@
+---
+
+- name: Install list of packages
+  apt: update_cache=yes cache_valid_time=3600 pkg={{item}} state=installed
+  with_items:
+   - zookeeper
+   - zookeeperd
+
+- name: Setting zoo.cfg
+  template: src=zoo.cfg.j2 dest=/etc/zookeeper/conf/zoo.cfg owner=root group=root mode=0644
+  notify: restart zookeeper
+
+- name: Seting myid file.
+  template: src=myid.j2 dest=/etc/zookeeper/conf/myid
+  notify: restart zookeeper
+
+- name: Install consul check.
+  template: src=zookeeper-service.json.j2 dest=/etc/consul/conf.d/zookeeper-service.json
+  notify: restart consul
+
+- name: starting and enabling zookeeper service
+  service: name=zookeeper enabled=yes state=started
+
