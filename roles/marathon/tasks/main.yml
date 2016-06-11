@@ -1,0 +1,11 @@
+---
+- name: Install marathon 
+  apt: deb=https://raw.githubusercontent.com/mafonso/mesos-repo/master/marathon_1.1.1_all.deb
+
+- name: /etc/marathon/conf/master
+  template: src=master.j2 dest=/etc/marathon/conf/master owner=root group=root mode=0644
+  notify: restart marathon
+
+- name: /etc/marathon/conf/zk
+  template: src=zk.j2 dest=/etc/marathon/conf/zk owner=root group=root mode=0644
+  notify: restart marathon
