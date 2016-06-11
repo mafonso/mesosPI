@@ -1,0 +1,53 @@
+---
+- name: Install mesos 
+  apt: deb=https://raw.githubusercontent.com/mafonso/mesos-repo/master/mesos-1.0.0-0.1_armhf.deb
+
+- name: /etc/mesos/zk
+  template: src=zk.j2 dest=/etc/mesos-master/zk owner=root group=root mode=0644
+  when: mesos_master
+  notify: restart mesos-master
+
+- name: /etc/mesos-master/work_dir
+  copy: src=work_dir dest=/etc/mesos-master/work_dir
+  when: mesos_master
+  notify: restart mesos-master
+
+- name: /etc/mesos-master/webui_dir
+  copy: src=webui_dir dest=/etc/mesos-master/webui_dir
+  when: mesos_master
+  notify: restart mesos-master
+
+- name: /etc/mesos-master/quorum
+  template: src=quorum.j2 dest=/etc/mesos-master/quorum owner=root group=root mode=0644
+  when: mesos_master
+  notify: restart mesos-master
+
+- name: /etc/mesos-master/ip
+  template: src=ip.j2 dest=/etc/mesos-master/ip owner=root group=root mode=0644
+  when: mesos_master
+  notify: restart mesos-master
+
+- name: /etc/mesos-slave/master
+  template: src=master.j2 dest=/etc/mesos-slave/master owner=root group=root mode=0644
+  when: mesos_slave
+  notify: restart mesos-slave
+
+- name: /etc/mesos-slave/ip
+  template: src=ip.j2 dest=/etc/mesos-slave/ip owner=root group=root mode=0644
+  when: mesos_master
+  notify: restart mesos-slave
+
+- name: /etc/mesos-slave/hostname
+  template: src=hostname.j2 dest=/etc/mesos-slave/hostname owner=root group=root mode=0644
+  when: mesos_slave
+  notify: restart mesos-slave
+
+- name: /etc/mesos-slave/work_dir
+  copy: src=work_dir dest=/etc/mesos-slave/work_dir
+  when: mesos_slave
+  notify: restart mesos-slave
+
+- name: /etc/mesos-slave/containerizers
+  template: src=containerizers.j2 dest=/etc/mesos-slave/containerizers owner=root group=root mode=0644
+  when: mesos_slave
+  notify: restart mesos-slave
