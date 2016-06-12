@@ -2,6 +2,12 @@
 - name: Install mesos 
   apt: deb=https://raw.githubusercontent.com/mafonso/mesos-repo/master/mesos-1.0.0-0.1_armhf.deb
 
+- name: Enable mesos-master service
+  service: name=mesos-master enabled=yes state=started
+
+- name: Enable mesos-slave service 
+  service: name=mesos-slave enabled=yes state=started
+
 - name: /etc/mesos/zk
   template: src=zk.j2 dest=/etc/mesos-master/zk owner=root group=root mode=0644
   when: mesos_master
@@ -39,6 +45,11 @@
 
 - name: /etc/mesos-slave/hostname
   template: src=hostname.j2 dest=/etc/mesos-slave/hostname owner=root group=root mode=0644
+  when: mesos_slave
+  notify: restart mesos-slave
+
+- name: /etc/mesos-slave/launcher_dir
+  copy: src=launcher_dir dest=/etc/mesos-slave/launcher_dir
   when: mesos_slave
   notify: restart mesos-slave
 

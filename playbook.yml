@@ -48,7 +48,7 @@
   - consul_datacenter: "lon"
   - consul_server: true
   - consul_web_ui: true
-  - consul_with_dnsmasq: false
+  - consul_with_dnsmasq: true
   - mesos_slave: true
   - mesos_master: true
   - mesos_quorum: 3
